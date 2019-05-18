@@ -367,12 +367,14 @@ public class Referee extends AbstractReferee {
                     actionList.clear();
                     player.deactivate(String.format("$%d: unrecognised command (\"%s\")", player.getIndex(), actionStr));
                     checkForEndGame();
+                    player.setScore(-1);
                     break;
                 }
             }
         } catch (TimeoutException e) {
             player.deactivate(String.format("$%d timeout!", player.getIndex()));
             checkForEndGame();
+            player.setScore(-1);
         }
     }
 
@@ -498,14 +500,14 @@ public class Referee extends AbstractReferee {
         if (!gameManager.getPlayer(0).isActive()) {
             // score = military value
             List<AtomicInteger> scores = this.gameState.getScores();
-            gameManager.getPlayer(0).setScore(-1);
+            gameManager.getPlayer(0).setScore(0);
             gameManager.getPlayer(1).setScore(scores.get(1).intValue());
             gameManager.endGame();
         }
         if (!gameManager.getPlayer(1).isActive()) {
             // score = military value
             List<AtomicInteger> scores = this.gameState.getScores();
-            gameManager.getPlayer(1).setScore(-1);
+            gameManager.getPlayer(1).setScore(0);
             gameManager.getPlayer(0).setScore(scores.get(0).intValue());
             gameManager.endGame();
         }
